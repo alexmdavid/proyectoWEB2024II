@@ -16,14 +16,13 @@ import java.sql.SQLException;
 
 
 public class Conexion {
-    private static final String URL = "jdbc:postgresql://localhost:5432/bicicaribe"; // Reemplaza 'tu_base_datos' con el nombre de tu base de datos
-    private static final String USER = "user_node"; // Reemplaza 'tu_usuario' con tu usuario de PostgreSQL
-    private static final String PASSWORD = "123456"; // Reemplaza 'tu_contraseña' con tu contraseña de PostgreSQL
-
+    private static final String URL = "jdbc:postgresql://localhost:5432/bicicaribe"; 
+    private static final String USER = "user_node"; 
+    private static final String PASSWORD = "123456"; 
     public static Connection getConnection() {
     Connection conn = null;
     try {
-        Class.forName("org.postgresql.Driver"); // Asegura que el controlador esté cargado
+        Class.forName("org.postgresql.Driver"); 
         conn = DriverManager.getConnection(URL, USER, PASSWORD);
         System.out.println("Conexión exitosa a la base de datos.");
     } catch (ClassNotFoundException e) {
@@ -36,7 +35,6 @@ public class Conexion {
 
 
     public static void main(String[] args) {
-        // Prueba la conexión
         Connection conn = getConnection();
         
         if (conn != null) {
