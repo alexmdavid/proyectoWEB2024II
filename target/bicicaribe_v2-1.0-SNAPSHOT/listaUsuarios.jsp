@@ -5,8 +5,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Usuarios</title>
-    <link rel="stylesheet" href="path_to_your_css.css"> <!-- Ruta a tu archivo CSS, si tienes -->
+    <title>Registrar Usuario</title>
+    <link rel="stylesheet" type="text/css" href="Styles/style1.css">
 </head>
 <body>
 

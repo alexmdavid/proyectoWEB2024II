@@ -24,7 +24,7 @@ public class UsuarioControlador extends HttpServlet {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             List<Usuario> listaUsuarios = usuarioDAO.obtenerTodosLosUsuarios();
             request.setAttribute("listaUsuarios", listaUsuarios);
-            System.out.println(""+listaUsuarios);
+            System.out.println("" + listaUsuarios);
             RequestDispatcher dispatcher = request.getRequestDispatcher("listaUsuarios.jsp");
             dispatcher.forward(request, response);
         } else if ("viewProfile".equals(action)) {
@@ -40,56 +40,62 @@ public class UsuarioControlador extends HttpServlet {
 
     }
 
-   @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    String action = request.getParameter("action");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
 
-    if ("update".equals(action)) {
-        int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
-        String nombre = request.getParameter("nombre");
-        String apellido = request.getParameter("apellido");
-        String sexo = request.getParameter("sexo");
-        String tipoDeSangre = request.getParameter("tipoDeSangre");
+        if ("update".equals(action)) {
 
-        Usuario usuario = new Usuario(idUsuario, nombre, apellido, sexo, tipoDeSangre);
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        usuarioDAO.actualizarUsuario(usuario);
+            int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
 
-        response.sendRedirect("UsuarioControlador?action=list"); // Redirigir a la lista de usuarios
-    } else {
-        // El resto de la lógica POST (como la creación de usuarios)
-        String id_ = request.getParameter("idUsuario");
-        String nombre = request.getParameter("nombre");
-        String ape = request.getParameter("apellido");
-        String sexo = request.getParameter("sexo");
-        String tipoSan = request.getParameter("tipoSangre");
+            String nombre = request.getParameter("nombre");
 
-        try {
-            // Validar y convertir el id a entero
-            int idUsu = Integer.parseInt(id_);
+            String apellido = request.getParameter("apellido");
+            String sexo = request.getParameter("sexo");
 
-            // Crear una nueva instancia de Usuario con los datos recibidos
-            Usuario usu = new Usuario(idUsu, nombre, ape, sexo, tipoSan);
+            String tipoDeSangre = request.getParameter("tipoSangre");
 
-            // Usar el DAO para insertar el usuario en la base de datos
-            UsuarioDAO usuDAO = new UsuarioDAO();
-            boolean resultado = usuDAO.insertarUsuario(usu);
+            Usuario usuario = new Usuario(idUsuario, nombre, apellido, sexo, tipoDeSangre);
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            usuarioDAO.actualizarUsuario(usuario);
 
-            if (resultado) {
-                // Redirigir a la página de inicio si la inserción fue exitosa
-                response.sendRedirect("home.jsp");
-            } else {
-                // Redirigir a una página de error si la inserción falla
+            //usuarioDAO.actualizarU // Si la actualización es exitosa, redirigimos o enviamos un mensaje de éxito
+            response.setContentType(
+                    "text/html");
+            response.getWriter().write("success"); // Podrías enviar un mensaje como "success" o algo similar
+        } else {
+            // El resto de la lógica POST (como la creación de usuarios)
+            String id_ = request.getParameter("idUsuario");
+            String nombre = request.getParameter("nombre");
+            String ape = request.getParameter("apellido");
+            String sexo = request.getParameter("sexo");
+            String tipoSan = request.getParameter("tipoSangre");
+
+            try {
+                // Validar y convertir el id a entero
+                int idUsu = Integer.parseInt(id_);
+
+                // Crear una nueva instancia de Usuario con los datos recibidos
+                Usuario usu = new Usuario(idUsu, nombre, ape, sexo, tipoSan);
+
+                // Usar el DAO para insertar el usuario en la base de datos
+                UsuarioDAO usuDAO = new UsuarioDAO();
+                boolean resultado = usuDAO.insertarUsuario(usu);
+
+                if (resultado) {
+                    // Redirigir a la página de inicio si la inserción fue exitosa
+                    response.sendRedirect("home.jsp");
+                } else {
+                    // Redirigir a una página de error si la inserción falla
+                    response.sendRedirect("error.jsp");
+                }
+            } catch (NumberFormatException e) {
+                // Redirigir a una página de error si el ID no es válido
                 response.sendRedirect("error.jsp");
             }
-        } catch (NumberFormatException e) {
-            // Redirigir a una página de error si el ID no es válido
-            response.sendRedirect("error.jsp");
         }
     }
-}
-
 
     @Override
     public String getServletInfo() {

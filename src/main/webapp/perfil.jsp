@@ -1,26 +1,60 @@
-<%-- 
-    Document   : perfil
-    Created on : 8/11/2024, 12:24:10 a.Â m.
-    Author     : ALEX DAVID RUIDIAZ C
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!-- Aquí va el formulario de edición -->
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>Perfil de Usuario</title>
+    <meta charset="UTF-8">
+    <title>Registrar Usuario</title>
+    <link rel="stylesheet" type="text/css" href="Styles/style1.css">
 </head>
-<body>
-    <h2>Perfil de Usuario</h2>
-    <form action="UsuarioControlador?action=update" method="post">
-        <input type="hidden" name="idUsuario" value="${usuario.idUsuario}" />
-        <label>Nombre:</label>
-        <input type="text" name="nombre" value="${usuario.nombre}" /><br/>
-        <label>Apellido:</label>
-        <input type="text" name="apellido" value="${usuario.apellido}" /><br/>
-        <label>Sexo:</label>
-        <input type="text" name="sexo" value="${usuario.sexo}" /><br/>
-        <label>Tipo de Sangre:</label>
-        <input type="text" name="tipoDeSangre" value="${usuario.tipoDeSangre}" /><br/>
-        <button type="submit">Guardar Cambios</button>
-    </form>
-</body>
-</html>
+<form id="formEditarPerfil">
+    <input type="hidden" id="idUsuario" value="${usuario.idUsuario}">
+
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" name="nombre" value="${usuario.nombre}" required><br>
+
+    <label for="apellido">Apellido</label>
+    <input type="text" id="apellido" name="apellido" value="${usuario.apellido}" required><br>
+
+    <label for="sexo">Sexo</label>
+    <select id="sexo" name="sexo" required>
+        <option value="Masculino" ${usuario.sexo == 'Masculino' ? 'selected' : ''}>Masculino</option>
+        <option value="Femenino" ${usuario.sexo == 'Femenino' ? 'selected' : ''}>Femenino</option>
+    </select><br>
+
+    <label for="tipoSangre">Tipo de Sangre</label>
+    <input type="text" id="tipoSangre" name="tipoSangre" value="${usuario.tipoDeSangre}" required><br>
+
+    <input type="hidden" name="idUsuario" value="${usuario.idUsuario}">
+
+    <button type="submit">Actualizar Perfil</button>
+</form>
+
+<!-- Agregar la librería de jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Evento para enviar el formulario sin recargar la página
+    $('#formEditarPerfil').submit(function(e) {
+        e.preventDefault(); // Prevenir el envío normal del formulario
+
+        var formData = $(this).serialize(); // Obtener los datos del formulario
+
+        // Realizar la solicitud AJAX
+        $.ajax({
+            url: 'UsuarioControlador?action=update',  // Ruta al controlador que actualiza el perfil
+            type: 'POST',
+            data: formData, // Datos que enviamos al servidor
+            success: function(response) {
+                // Si la actualización fue exitosa, mostramos un mensaje o redirigimos
+                alert('Perfil actualizado correctamente');
+                window.location.href = 'UsuarioControlador?action=viewProfile&idUsuario=' + $('#idUsuario').val();
+            },
+            error: function(xhr, status, error) {
+                // En caso de error, mostramos un mensaje
+                alert('Error al actualizar el perfil');
+            }
+        });
+    });
+});
+</script>
