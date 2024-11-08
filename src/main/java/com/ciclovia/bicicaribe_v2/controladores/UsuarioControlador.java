@@ -1,66 +1,64 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.ciclovia.bicicaribe_v2.controladores;
 
 import com.ciclovia.bicicaribe_v2.DAOs.UsuarioDAO;
 import com.ciclovia.bicicaribe_v2.modelos.Usuario;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-/**
- *
- * @author ALEX DAVID RUIDIAZ C
- */
+import java.io.IOException;
+import java.util.List;
+
 @WebServlet("/UsuarioControlador")
 public class UsuarioControlador extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+
+        if ("list".equals(action)) {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            List<Usuario> listaUsuarios = usuarioDAO.obtenerTodosLosUsuarios();
+            request.setAttribute("listaUsuarios", listaUsuarios);
+            System.out.println(""+listaUsuarios);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("listaUsuarios.jsp");
+            dispatcher.forward(request, response);
+        } else if ("viewProfile".equals(action)) {
+            int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            Usuario usuario = usuarioDAO.obtenerUsuarioPorId(idUsuario);
+            request.setAttribute("usuario", usuario);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("perfil.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            response.sendRedirect("home.jsp");
+        }
+
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+   @Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    String action = request.getParameter("action");
+
+    if ("update".equals(action)) {
+        int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+        String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("apellido");
+        String sexo = request.getParameter("sexo");
+        String tipoDeSangre = request.getParameter("tipoDeSangre");
+
+        Usuario usuario = new Usuario(idUsuario, nombre, apellido, sexo, tipoDeSangre);
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        usuarioDAO.actualizarUsuario(usuario);
+
+        response.sendRedirect("UsuarioControlador?action=list"); // Redirigir a la lista de usuarios
+    } else {
+        // El resto de la lógica POST (como la creación de usuarios)
         String id_ = request.getParameter("idUsuario");
         String nombre = request.getParameter("nombre");
         String ape = request.getParameter("apellido");
@@ -68,7 +66,7 @@ public class UsuarioControlador extends HttpServlet {
         String tipoSan = request.getParameter("tipoSangre");
 
         try {
-            // Convertir el id a entero
+            // Validar y convertir el id a entero
             int idUsu = Integer.parseInt(id_);
 
             // Crear una nueva instancia de Usuario con los datos recibidos
@@ -82,23 +80,19 @@ public class UsuarioControlador extends HttpServlet {
                 // Redirigir a la página de inicio si la inserción fue exitosa
                 response.sendRedirect("home.jsp");
             } else {
-                // Redirigir a una página de error o la misma página si la inserción falla
-                response.sendRedirect("home.jsp");
+                // Redirigir a una página de error si la inserción falla
+                response.sendRedirect("error.jsp");
             }
         } catch (NumberFormatException e) {
             // Redirigir a una página de error si el ID no es válido
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("error.jsp");
         }
     }
+}
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "UsuarioControlador Servlet";
+    }
 }

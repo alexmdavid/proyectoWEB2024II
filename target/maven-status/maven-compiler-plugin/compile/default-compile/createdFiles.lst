@@ -14,3 +14,4 @@ com\ciclovia\bicicaribe_v2\DAOs\RutaDAO.class
 com\ciclovia\bicicaribe_v2\DAOs\UsuarioDAO.class
 com\ciclovia\bicicaribe\entities\Grupo.class
 com\ciclovia\bicicaribe\entities\Calendario.class
+.netbeans_automatic_build
