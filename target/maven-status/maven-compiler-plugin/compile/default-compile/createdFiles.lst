@@ -1,6 +1,6 @@
+com\ciclovia\bicicaribe_v2\modelos\Ruta.class
 com\ciclovia\bicicaribe_v2\repositorios\Conexion.class
 com\ciclovia\bicicaribe_v2\controladores\RutaControlador.class
-com\ciclovia\bicicaribe\entities\Usuario.class
 com\ciclovia\bicicaribe_v2\controladores\VerificarConexionServlet.class
 com\ciclovia\bicicaribe\entities\InscripcionTorneo.class
 com\ciclovia\bicicaribe\entities\RutaLugar.class
@@ -8,6 +8,9 @@ com\ciclovia\bicicaribe\entities\Torneo.class
 com\ciclovia\bicicaribe\entities\Lugar.class
 com\ciclovia\bicicaribe\entities\InscripcionGrupo.class
 com\ciclovia\bicicaribe\entities\Patrocinador.class
-com\ciclovia\bicicaribe\entities\Ruta.class
+com\ciclovia\bicicaribe_v2\modelos\Usuario.class
+com\ciclovia\bicicaribe_v2\controladores\UsuarioControlador.class
+com\ciclovia\bicicaribe_v2\DAOs\RutaDAO.class
+com\ciclovia\bicicaribe_v2\DAOs\UsuarioDAO.class
 com\ciclovia\bicicaribe\entities\Grupo.class
 com\ciclovia\bicicaribe\entities\Calendario.class

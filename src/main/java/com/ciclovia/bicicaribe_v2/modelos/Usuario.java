@@ -41,6 +41,16 @@ public class Usuario {
         this.idRol = idRol;
     }
 
+    public Usuario(int idUsuario, String nombre, String apellido, String sexo, String tipoDeSangre) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.sexo = sexo;
+        this.tipoDeSangre = tipoDeSangre;
+    }
+
+   
+
     public int getIdUsuario() {
         return idUsuario;
     }
