@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,19 +22,9 @@ public class UsuarioControlador extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("list".equals(action)) {
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            List<Usuario> listaUsuarios = usuarioDAO.obtenerTodosLosUsuarios();
-            request.setAttribute("listaUsuarios", listaUsuarios);
-            System.out.println("" + listaUsuarios);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("listaUsuarios.jsp");
-            dispatcher.forward(request, response);
+            listarUsuarios(request, response);
         } else if ("viewProfile".equals(action)) {
-            int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            Usuario usuario = usuarioDAO.obtenerUsuarioPorId(idUsuario);
-            request.setAttribute("usuario", usuario);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("perfil.jsp");
-            dispatcher.forward(request, response);
+            verPerfil(request, response);
         } else {
             response.sendRedirect("home.jsp");
         }
@@ -46,59 +37,108 @@ public class UsuarioControlador extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("update".equals(action)) {
+            actualizar(request, response);
+        } else if ("create".equals(action)) {
+           
+            registrar(request, response);
 
-            int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
-
-            String nombre = request.getParameter("nombre");
-
-            String apellido = request.getParameter("apellido");
-            String sexo = request.getParameter("sexo");
-
-            String tipoDeSangre = request.getParameter("tipoSangre");
-
-            Usuario usuario = new Usuario(idUsuario, nombre, apellido, sexo, tipoDeSangre);
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            usuarioDAO.actualizarUsuario(usuario);
-
-            //usuarioDAO.actualizarU // Si la actualización es exitosa, redirigimos o enviamos un mensaje de éxito
-            response.setContentType(
-                    "text/html");
-            response.getWriter().write("success"); // Podrías enviar un mensaje como "success" o algo similar
-        } else {
-            // El resto de la lógica POST (como la creación de usuarios)
-            String id_ = request.getParameter("idUsuario");
-            String nombre = request.getParameter("nombre");
-            String ape = request.getParameter("apellido");
-            String sexo = request.getParameter("sexo");
-            String tipoSan = request.getParameter("tipoSangre");
-
-            try {
-                // Validar y convertir el id a entero
-                int idUsu = Integer.parseInt(id_);
-
-                // Crear una nueva instancia de Usuario con los datos recibidos
-                Usuario usu = new Usuario(idUsu, nombre, ape, sexo, tipoSan);
-
-                // Usar el DAO para insertar el usuario en la base de datos
-                UsuarioDAO usuDAO = new UsuarioDAO();
-                boolean resultado = usuDAO.insertarUsuario(usu);
-
-                if (resultado) {
-                    // Redirigir a la página de inicio si la inserción fue exitosa
-                    response.sendRedirect("home.jsp");
-                } else {
-                    // Redirigir a una página de error si la inserción falla
-                    response.sendRedirect("error.jsp");
-                }
-            } catch (NumberFormatException e) {
-                // Redirigir a una página de error si el ID no es válido
-                response.sendRedirect("error.jsp");
-            }
+        } else if ("login".equals(action)) {
+            iniciarSesion(request, response);
         }
+
     }
 
     @Override
     public String getServletInfo() {
         return "UsuarioControlador Servlet";
     }
+
+    private void listarUsuarios(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        List<Usuario> listaUsuarios = usuarioDAO.obtenerTodosLosUsuarios();
+        request.setAttribute("listaUsuarios", listaUsuarios);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listaUsuarios.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void verPerfil(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario usuario = usuarioDAO.obtenerUsuarioPorId(idUsuario);
+        request.setAttribute("usuario", usuario);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("perfil.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void actualizar(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int idUsuario = Integer.parseInt(request.getParameter("idUsuario"));
+
+        String nombre = request.getParameter("nombre");
+
+        String apellido = request.getParameter("apellido");
+        String sexo = request.getParameter("sexo");
+
+        String tipoDeSangre = request.getParameter("tipoSangre");
+
+        Usuario usuario = new Usuario(idUsuario, nombre, apellido, sexo, tipoDeSangre);
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        usuarioDAO.actualizarUsuario(usuario);
+
+        //usuarioDAO.actualizarU // Si la actualización es exitosa, redirigimos o enviamos un mensaje de éxito
+        response.setContentType(
+                "text/html");
+        response.getWriter().write("success");
+    }
+
+    private void registrar(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("Entrando al método registrar");
+
+        String nombre = request.getParameter("nombre");
+        String ape = request.getParameter("apellido");
+        String correo = request.getParameter("correo");
+        String contrasna = request.getParameter("contrasena");
+        int idrol = 2;
+
+        System.out.println("Datos recibidos: " + nombre + ", " + ape + ", " + correo);
+
+        try {
+            Usuario usu = new Usuario(nombre, ape, correo, contrasna, idrol);
+            UsuarioDAO usuDAO = new UsuarioDAO();
+            boolean resultado = usuDAO.insertarUsuario(usu);
+            if (resultado) {
+                System.out.println("Usuario insertado con éxito");
+                response.sendRedirect("login.jsp");
+            } else {
+                System.out.println("Error al insertar usuario");
+                response.sendRedirect("error.jsp");
+            }
+        } catch (Exception e) {
+            System.err.println("Error en registrar: " + e.getMessage());
+            response.sendRedirect("error.jsp");
+        }
+    }
+
+   
+     private void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        String username = request.getParameter("correo");
+        String password = request.getParameter("contrasena");
+
+        // Verificar las credenciales
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario usuario = usuarioDAO.obtenerUsuarioPorCorreo(username);
+
+        if (usuario != null && password.equals(usuario.getContrasena())) {
+            // Las credenciales son correctas, iniciar sesión
+            HttpSession session = request.getSession(true); // Crear o recuperar sesión
+            session.setAttribute("usuario", usuario);       // Guardar el usuario en la sesión
+
+            // Redirigir a la página principal (o la que corresponda)
+            response.sendRedirect("index.jsp");
+        } else {
+            // Las credenciales son incorrectas, mostrar mensaje de error
+            response.sendRedirect("login.jsp?error=true");
+        }
+    }
+
 }

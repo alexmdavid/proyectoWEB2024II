@@ -72,17 +72,18 @@ public class RutaDAO {
     // Método para obtener todas las rutas de la base de datos
     public List<Ruta> obtenerTodasLasRutas() {
         List<Ruta> rutas = new ArrayList<>();
-        String sql = "SELECT * FROM ruta";
+        String sql = "SELECT * FROM rutas";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Ruta ruta = new Ruta(
-                        rs.getInt("id_ruta"),
-                        rs.getString("nombre_ruta"),
+                        rs.getInt("idruta"),
+                        rs.getString("nombreruta"),
                         rs.getString("descripcion")
                 );
                 rutas.add(ruta);
+                System.out.println(""+rutas);
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener las rutas: " + e.getMessage());
@@ -117,4 +118,27 @@ public class RutaDAO {
             return false;
         }
     }
+    
+    public static void main(String[] args) {
+        RutaDAO r = new RutaDAO();
+        r.obtenerTodasLasRutas();
+    }
+    
+    
+    public List<Ruta> buscarRutas(String texto) throws SQLException {
+    List<Ruta> rutas = new ArrayList<>();
+    String sql = "SELECT * FROM rutas WHERE nombreruta ILIKE ? OR descripcion ILIKE ?";
+    try (Connection conn = Conexion.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        String query = "%" + texto + "%";
+        stmt.setString(1, query);
+        stmt.setString(2, query);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            rutas.add(new Ruta(rs.getInt("idruta"), rs.getString("nombreruta"), rs.getString("descripcion")));
+        }
+    }
+    return rutas;
+}
+
 }

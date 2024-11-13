@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 
 public class Conexion {
-    private static final String URL = "jdbc:postgresql://localhost:5432/bicicaribe"; 
+    private static final String URL = "jdbc:postgresql://localhost:5432/bicicaribe_v2"; 
     private static final String USER = "user_node"; 
     private static final String PASSWORD = "123456"; 
     public static Connection getConnection() {

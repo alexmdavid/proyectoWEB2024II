@@ -26,6 +26,15 @@ public class Usuario {
 
     public Usuario() {}
 
+    public Usuario(String nombre, String apellido, String correo, String contrasena, int idRol) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.idRol = idRol;
+    }
+
+    
     public Usuario(int idUsuario, String nombre, String apellido, Date fechaNacimiento, String sexo, String tipoDeSangre, String correo, String contrasena, int idRuta, int idTorneo, int idGrupo, int idRol) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
@@ -48,6 +57,17 @@ public class Usuario {
         this.sexo = sexo;
         this.tipoDeSangre = tipoDeSangre;
     }
+
+    public Usuario(int idUsuario, String nombre, String apellido, String correo, String contrasena, int idRol) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.idRol = idRol;
+    }
+
+   
 
    
 

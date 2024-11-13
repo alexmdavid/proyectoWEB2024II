@@ -20,13 +20,14 @@ import java.util.List;
 public class UsuarioDAO {
 
     public boolean insertarUsuario(Usuario usu) {
-        String sql = "INSERT INTO usuarios (idusuario, nombre, apellido, sexo, tipo_de_sangre) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nombre, apellido, correo, contrasena, idRol) VALUES (?, ?, ?, ?, ?)";
         try ( Connection conn = Conexion.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, usu.getIdUsuario());
-            stmt.setString(2, usu.getNombre());
-            stmt.setString(3, usu.getApellido());
-            stmt.setString(4, usu.getSexo());
-            stmt.setString(5, usu.getTipoDeSangre());
+            
+            stmt.setString(1, usu.getNombre());
+            stmt.setString(2, usu.getApellido());
+            stmt.setString(3, usu.getCorreo());
+            stmt.setString(4, usu.getContrasena());
+            stmt.setInt(5, usu.getIdRol());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Error al insertar el usuario: " + e.getMessage());
@@ -94,5 +95,29 @@ public class UsuarioDAO {
             return false;
         }
     }
+
+   public Usuario obtenerUsuarioPorCorreo(String correo) {
+    Usuario usuario = null;
+    String sql = "SELECT * FROM usuarios WHERE correo = ?";
+    try (Connection conn = Conexion.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, correo);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            usuario = new Usuario(
+                rs.getInt("idusuario"),
+                rs.getString("nombre"),
+                rs.getString("apellido"),
+                rs.getString("correo"),
+                rs.getString("contrasena"),
+                rs.getInt("idrol")
+            );
+        }
+    } catch (Exception e) {
+        System.err.println("Error al obtener usuario por correo: " + e.getMessage());
+    }
+    return usuario;
+}
+
 
 }

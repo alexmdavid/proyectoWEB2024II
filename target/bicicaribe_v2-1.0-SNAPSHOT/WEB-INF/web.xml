@@ -12,6 +12,10 @@
         <servlet-name>Conexion</servlet-name>
         <servlet-class>com.ciclovia.bicicaribe_v2.controladores.Conexion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GrupoControlador</servlet-name>
+        <servlet-class>com.ciclovia.bicicaribe_v2.controladores.GrupoControlador</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RutaControlador</servlet-name>
         <url-pattern>/RutaControlador</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>Conexion</servlet-name>
         <url-pattern>/Conexion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GrupoControlador</servlet-name>
+        <url-pattern>/GrupoControlador</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

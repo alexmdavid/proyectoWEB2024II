@@ -1,44 +1,47 @@
-<%-- 
-    Document   : registro
-    Created on : 5/11/2024, 1:50:35 p.Â m.
-    Author     : ALEX DAVID RUIDIAZ C
---%>
-<%-- 
-    Document   : index
-    Created on : 5/11/2024, 1:50:13 p.Â m.
-    Author     : ALEX DAVID RUIDIAZ C
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Usuario</title>
-    <link rel="stylesheet" type="text/css" href="Styles/style1.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <!-- Cambiar la referencia del archivo CSS -->
+    <link rel="stylesheet" href="./statics/styles/style.css">
+    <script src="statics/js/index.js"></script>
 </head>
+
 <body>
-    <h2>Formulario para Refistrar Usuario</h2>
-    <form action="UsuarioControlador" method="POST">
-        <label for="idUsuario">ID del usuario:</label>
-        <input type="number" id="idUsuario" name="idUsuario" required>
-
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-
-        <label for="apellido">Apellido:</label>
-        <textarea id="apellido" name="apellido" required></textarea>
-        
-        <label for="fechaNacimiento">fecha de Nacimiento:</label>
-        <textarea id="fechaNacimiento" name="fechaNacimiento" required></textarea><!--  -->
-        
-        <label for="sexo">Sexo:</label>
-        <textarea id="sexo" name="sexo" required></textarea>
-        
-        <label for="tipoSangre">Tipo de Sangre:</label>
-        <textarea id="tipoSangre" name="tipoSangre" required></textarea>
-
-        <button type="submit">Registrar Usuario</button>
-    </form>
+    <div class="container">
+        <h2>Crear Cuenta</h2>
+        <form action="UsuarioControlador?action=create" method="POST" >
+            <div class="input-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="input-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="correo" required>
+                <small id="emailError"></small>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <div style="position: relative;">
+                    <input type="password" id="password" name="contrasena" required>
+                    <!-- Ícono de ojo -->
+                    <span id="togglePassword"
+                        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                        ??
+                    </span>
+                </div>
+                <small id="passwordError"></small>
+            </div>
+            <button type="submit">Regístrate</button>
+        </form>
+    </div>
 </body>
+
 </html>

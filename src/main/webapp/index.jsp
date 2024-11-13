@@ -1,3 +1,10 @@
+<%-- 
+    Document   : index
+    Created on : 8/11/2024, 3:22:23 p. m.
+    Author     : ALEX DAVID RUIDIAZ C
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -6,6 +13,7 @@
         <title>Bicicleta Rutas</title>
         <link rel="stylesheet" href="./styles.css/style.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+        <script src="./statics/js/buscarRutas.js"></script>
 
 
 
@@ -30,18 +38,21 @@
         <nav class="barra">
             <ul>
                 <li><a href="#">INICIO</a></li>
-                <li><a href="#">RUTAS</a></li>
-                <li><a href="#">GRUPOS DE SALIDA</a></li>
+                <li><a href="RutaControlador?action=listarRutas">RUTAS</a></li>
+                <li><a href="GrupoControlador?action=list">GRUPOS DE SALIDA</a></li>
                 <li><a href="#">TORNEOS</a></li>
-                <li><a href="#">MAPA</a></li>
+                <li><a href="UsuarioControlador?action=list">VER USUARIOS</a></li>
                 <li><a href="#">CONTACTANOS</a></li>
             </ul>
         </nav>
 
         <main>
             <div class="search-bar">
-                <input type="text" placeholder="Buscar ruta">
+                <input type="text" id="buscarRuta" placeholder="Buscar ruta">
             </div>
+            <div id="resultadoRutas"></div>
+           
+
             <div class="routes">
                 <div class="route-card">
                     <img src="./img/minca.jpg" alt="Minca - Cerro Kennedy - Arimaca" class="zoom">
@@ -60,6 +71,7 @@
                 </div>
             </div>
         </main>
+
         <footer>
             <h2>BiciCaribe</h2>
 
@@ -68,4 +80,10 @@
             </p>
         </footer>
     </body>
+    <!-- Enlace para listar las rutas -->
+
+
+    <!-- Enlace para registrar una nueva ruta -->
+
+
 </html>

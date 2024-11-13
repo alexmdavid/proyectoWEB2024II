@@ -15,8 +15,6 @@
 <body>
     <h2>Formulario para Agregar una Nueva Ruta</h2>
     <form action="RutaControlador" method="POST">
-        <label for="idRuta">ID de la Ruta:</label>
-        <input type="number" id="idRuta" name="idRuta" required>
 
         <label for="nombreRuta">Nombre de la Ruta:</label>
         <input type="text" id="nombreRuta" name="nombreRuta" required>
