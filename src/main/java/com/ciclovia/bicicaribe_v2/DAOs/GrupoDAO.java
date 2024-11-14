@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -99,9 +101,10 @@ public class GrupoDAO {
         return grupos;
     }
 
-   public boolean unirseAGrupo(int idUsuario, int idGrupo) throws SQLException {
-    String sqlInsertRelacion = "INSERT INTO inscripciones_grupo (idusuario, idgrupo) VALUES (?, ?)";
+ public boolean unirseAGrupo(int idUsuario, int idGrupo) throws SQLException {
+    String sqlInsertRelacion = "INSERT INTO inscripciones_grupo (idusuario, idgrupo, fecha_inscripcion) VALUES (?, ?, ?)";
     String sqlActualizarUsuario = "UPDATE usuarios SET idGrupo = ? WHERE idusuario = ?";
+    LocalDate currentDate = LocalDate.now(); // Fecha actual
 
     try (Connection conn = Conexion.getConnection()) {
         // Desactivar auto-commit para manejar la transacción manualmente
@@ -110,11 +113,13 @@ public class GrupoDAO {
         try (PreparedStatement stmtRelacion = conn.prepareStatement(sqlInsertRelacion);
              PreparedStatement stmtActualizar = conn.prepareStatement(sqlActualizarUsuario)) {
 
+            // Configurar el statement para el INSERT
             stmtRelacion.setInt(1, idUsuario);
             stmtRelacion.setInt(2, idGrupo);
+            stmtRelacion.setDate(3, java.sql.Date.valueOf(currentDate)); // Convertir LocalDate a java.sql.Date
             stmtRelacion.executeUpdate();
 
-            // Actualiza el idGrupo en la tabla usuarios
+            // Configurar el statement para el UPDATE
             stmtActualizar.setInt(1, idGrupo);
             stmtActualizar.setInt(2, idUsuario);
             stmtActualizar.executeUpdate();
@@ -133,6 +138,7 @@ public class GrupoDAO {
         }
     }
 }
+
 
 
 }

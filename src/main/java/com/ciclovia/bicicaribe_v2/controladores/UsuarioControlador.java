@@ -39,7 +39,7 @@ public class UsuarioControlador extends HttpServlet {
         if ("update".equals(action)) {
             actualizar(request, response);
         } else if ("create".equals(action)) {
-           
+
             registrar(request, response);
 
         } else if ("login".equals(action)) {
@@ -56,9 +56,16 @@ public class UsuarioControlador extends HttpServlet {
     private void listarUsuarios(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         List<Usuario> listaUsuarios = usuarioDAO.obtenerTodosLosUsuarios();
-        request.setAttribute("listaUsuarios", listaUsuarios);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("listaUsuarios.jsp");
-        dispatcher.forward(request, response);
+        Usuario usu = obtenerIdUsuarioDeSesion(request);
+        if (usu.getIdRol() == 1) {
+            request.setAttribute("listaUsuarios", listaUsuarios);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("listaUsuarios.jsp");
+            dispatcher.forward(request, response);
+        }else{
+             request.setAttribute("listaUsuarios", listaUsuarios);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("listarUsuariosN.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     private void verPerfil(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,6 +75,16 @@ public class UsuarioControlador extends HttpServlet {
         request.setAttribute("usuario", usuario);
         RequestDispatcher dispatcher = request.getRequestDispatcher("perfil.jsp");
         dispatcher.forward(request, response);
+    }
+
+    private Usuario obtenerIdUsuarioDeSesion(HttpServletRequest request) {
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuario != null) {
+            return usuario;
+        } else {
+            throw new IllegalStateException("No hay usuario en sesión");
+        }
     }
 
     private void actualizar(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -84,7 +101,6 @@ public class UsuarioControlador extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         usuarioDAO.actualizarUsuario(usuario);
 
-        //usuarioDAO.actualizarU // Si la actualización es exitosa, redirigimos o enviamos un mensaje de éxito
         response.setContentType(
                 "text/html");
         response.getWriter().write("success");
@@ -118,8 +134,7 @@ public class UsuarioControlador extends HttpServlet {
         }
     }
 
-   
-     private void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
+    private void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         String username = request.getParameter("correo");
         String password = request.getParameter("contrasena");
@@ -134,7 +149,7 @@ public class UsuarioControlador extends HttpServlet {
             session.setAttribute("usuario", usuario);       // Guardar el usuario en la sesión
 
             // Redirigir a la página principal (o la que corresponda)
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("home.jsp");
         } else {
             // Las credenciales son incorrectas, mostrar mensaje de error
             response.sendRedirect("login.jsp?error=true");

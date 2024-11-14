@@ -16,6 +16,26 @@
         <servlet-name>GrupoControlador</servlet-name>
         <servlet-class>com.ciclovia.bicicaribe_v2.controladores.GrupoControlador</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TorneoControlador</servlet-name>
+        <servlet-class>com.ciclovia.bicicaribe_v2.controladores.TorneoControlador</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CalendarioControlador</servlet-name>
+        <servlet-class>com.ciclovia.bicicaribe_v2.controladores.CalendarioControlador</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PatrocinadorControlador</servlet-name>
+        <servlet-class>com.ciclovia.bicicaribe_v2.controladores.PatrocinadorControlador</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RolControlador</servlet-name>
+        <servlet-class>com.ciclovia.bicicaribe_v2.controladores.RolControlador</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LugarControlador</servlet-name>
+        <servlet-class>com.ciclovia.bicicaribe_v2.controladores.LugarControlador</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RutaControlador</servlet-name>
         <url-pattern>/RutaControlador</url-pattern>
@@ -31,6 +51,26 @@
     <servlet-mapping>
         <servlet-name>GrupoControlador</servlet-name>
         <url-pattern>/GrupoControlador</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TorneoControlador</servlet-name>
+        <url-pattern>/TorneoControlador</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CalendarioControlador</servlet-name>
+        <url-pattern>/CalendarioControlador</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PatrocinadorControlador</servlet-name>
+        <url-pattern>/PatrocinadorControlador</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RolControlador</servlet-name>
+        <url-pattern>/RolControlador</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LugarControlador</servlet-name>
+        <url-pattern>/LugarControlador</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

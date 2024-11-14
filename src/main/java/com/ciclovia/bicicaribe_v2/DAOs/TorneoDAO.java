@@ -23,14 +23,15 @@ import java.sql.SQLException;
  */
 public class TorneoDAO {
 
-    public void insertarTorneo(Torneo torneo) throws SQLException {
-        String sql = "INSERT INTO torneos (nombre, descripcion, idpatrocinador) VALUES (?, ?, ?)";
+    public boolean insertarTorneo(Torneo torneo) throws SQLException {
+        String sql = "INSERT INTO torneos (nombre, descripcion) VALUES (?, ?)";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, torneo.getNombre());
             stmt.setString(2, torneo.getDescripcion());
-            stmt.setInt(3, torneo.getIdPatrocinador());
+           // stmt.setInt(3, torneo.getIdPatrocinador());
             stmt.executeUpdate();
+            return stmt.executeUpdate() > 0;
         }
     }
 

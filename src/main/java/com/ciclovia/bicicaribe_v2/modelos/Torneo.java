@@ -22,6 +22,11 @@ package com.ciclovia.bicicaribe_v2.modelos;
         this.idPatrocinador = idPatrocinador;
     }
 
+    public Torneo(String nombre, String descripcion) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
+
     public int getIdTorneo() {
         return idTorneo;
     }
