@@ -30,8 +30,10 @@ public class TorneoDAO {
             stmt.setString(1, torneo.getNombre());
             stmt.setString(2, torneo.getDescripcion());
            // stmt.setInt(3, torneo.getIdPatrocinador());
-            stmt.executeUpdate();
             return stmt.executeUpdate() > 0;
+        }catch (SQLException e) {
+            System.err.println("Error al insertar el usuario: " + e.getMessage());
+            return false;
         }
     }
 

@@ -29,8 +29,7 @@
                 <a class="fa-brands fa-twitter fa-xl"></a>
             </div>
             <div class="auth-buttons">
-                <button class="login-btn" onclick="location.href = 'login.jsp'">Iniciar Sesión</button>
-                <button class="register-btn" onclick="location.href = 'registro.jsp'">Crear cuenta</button>
+                <button class="login-btn" onclick="location.href = '<%= request.getContextPath() %>/UsuarioControlador?action=viewMyProfile'">Mi perfil</button>
             </div>
 
         </header>
@@ -51,7 +50,7 @@
                 <input type="text" id="buscarRuta" placeholder="Buscar ruta">
             </div>
             <div id="resultadoRutas"></div>
-           
+
 
             <div class="routes">
                 <div class="route-card">

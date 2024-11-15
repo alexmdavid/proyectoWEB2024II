@@ -34,7 +34,6 @@ public class GrupoDAO {
             stmt.setString(1, grupo.getNombre());
             stmt.setString(2, grupo.getDescripcion());
             stmt.setString(3, grupo.getModalidad());
-            stmt.executeUpdate();
             res = stmt.executeUpdate() > 0;
         }
         return res;

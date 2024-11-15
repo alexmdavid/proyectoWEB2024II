@@ -40,6 +40,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
             Logger.getLogger(GrupoControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    else if("create".equals(action)){
+        try {
+            crearGrupo(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(GrupoControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
 
 private void unirseAGrupo(HttpServletRequest request, HttpServletResponse response)
@@ -91,6 +98,19 @@ private void unirseAGrupo(HttpServletRequest request, HttpServletResponse respon
         throw new IllegalStateException("No hay usuario en sesión");
     }
 }
+    private void crearGrupo(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException{
+        String nombre = request.getParameter("nombreGrupo");
+        String modalidad = request.getParameter("modalidad");
+        String descripcion = request.getParameter("descripcion");
+        Grupo grupo = new Grupo(nombre, descripcion, modalidad);
+        GrupoDAO gruDao = new GrupoDAO();
+        if(gruDao.insertarGrupo(grupo)){
+            response.sendRedirect("home.jsp"); 
+        }else{
+            response.sendRedirect("error.jsp");
+        }
+        
+    }
 
 
 }
